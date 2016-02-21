@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Platform Status Indicator",
+  "description": "This extension shows an indicator if the page has listed in the platform status",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "browserAction/index.png",
+    "default_popup": "browserAction/index.html"
+  },
+  "background": {
+      "scripts": [
+        "background.js"
+      ]
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
