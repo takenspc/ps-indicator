@@ -19,7 +19,7 @@ class TabHandler {
 
             const url = tab.url;
             this.activeTabURL = url;
-            console.log('activated', tabId, url);
+            // console.log('activated', tabId, url);
             this.updateBrowserAction.bind(this)(tabId, url);
         });
     }
@@ -35,7 +35,7 @@ class TabHandler {
 
         const url = changeInfo.url;
         this.activeTabURL = url;
-        console.log('updated', tabId, url);
+        // console.log('updated', tabId, url);
         this.updateBrowserAction.bind(this)(tabId, url);
     }
 
@@ -56,15 +56,15 @@ class TabHandler {
     }
 
     onMessage(message) {
-        console.log(message);
+        // console.log(message);
         const type = message.type;
         if (type === 'query') {
             const url = message.url;
-            console.log('recieving query', url);
+            // console.log('recieving query', url);
 
             const data = this.query(url);
 
-            console.log('sending response', url);
+            // console.log('sending response', url);
             chrome.runtime.sendMessage({
                 type: 'response',
                 url: url,
