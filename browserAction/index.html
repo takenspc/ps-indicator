@@ -1,12 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Platform Status</title>
-  </head>
-  <body>
-    <div id="status"></div>
-    <script src="index.js"></script>
-  </body>
-</html>
+</head>
 
+<body>
+    <h1>Platform Status</h1>
+    <div id="indicator">
+        <div class="status" v-for="entry of specEntry.fragments">
+            <div class="fragment">
+                <h2>{{ entry.fragment || '#' }}</h2>
+                <div class="engine" v-for="engine of engines">
+                    <div v-if="entry.engines[engine]">
+                        <h4>{{ engine }}</h4>
+                        <ul class="entry-list" v-for="statusEntry of entry.engines[engine]">
+                            <li>{{ statusEntry.title }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="vue.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
