@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Platform Status Indicator</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<title>Platform Status Indicator</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1 class="appName">Platform Status Indicator</h1>
-    <div id="indicator">
-        <ps-fragment v-for="fragment in fragments" :fragment="fragment.fragment" :engines="fragment.engines" :url="url"></ps-fragment>
-    </div>
-    <script src="vue.min.js"></script>
-    <script src="index.js"></script>
+<h1 class="app-name">Platform Status Indicator</h1>
+<div id="indicator">
+<ps-fragment v-for="fragment in fragments"
+             :url="url"
+             :fragment="fragment.fragment"
+             :engines="fragment.engines"></ps-fragment>
+</div>
+<script src="vue.min.js"></script>
+<script src="index.js"></script>
 </body>
-
 </html>

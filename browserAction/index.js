@@ -55,18 +55,26 @@ const Entry = Vue.extend({
     
     props: ['entry'],
 
+    methods: {
+        toggle: function() {
+            // `this` is vn 
+            const details = this.$els.details;
+            details.classList.toggle('hidden');
+        }
+    },
+
     template: `
         <li class="entry">
-            <img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}">
-            <div hidden>
-                <p>{{ entry.title }}</p>
-                <p>
-                    <span>{{ entry.status.originalStatus }}</span>
-                    <span v-if="entry.status.channel">starting {{ entry.status.channel }}</span>
-                    <span v-if="entry,.statu.behindFlag">(behind a flag)</span>
-                    <span v-if="entry.status.prefixed">(prefixed)</span>
-                </p>
-            </div>
+        <button class="entry-button" v-on:click="toggle"><img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"></button>
+        <div class="entry-details hidden" v-el:details>
+        <p class="title">{{ entry.title }}</p>
+        <p>
+        <span>{{ entry.status.originalStatus }}</span>
+        <span v-if="entry.status.channel">starting {{ entry.status.channel }}</span>
+        <span v-if="entry,.statu.behindFlag">(behind a flag)</span>
+        <span v-if="entry.status.prefixed">(prefixed)</span>
+        </p>
+        </div>
         </li>
     `,
 });
@@ -88,7 +96,7 @@ const Engine = Vue.extend({
     template: `
         <h3 class="engine-name"><img class="icon" src="icons/{{ engine }}.png" alt="{{ engine}}"></h3>
         <ul class="entry-list" v-for="entry in $data.entries">
-            <ps-entry :entry="entry"></ps-entry>
+        <ps-entry :entry="entry"></ps-entry>
         </ul>
     `,
 })
@@ -123,9 +131,9 @@ const Fragment = Vue.extend({
     template: `
         <h2 class="fragment-name"><button v-on:click="open">{{ $data.fragment || '#' }}</button></h2>
         <div v-for="engine in knownEngines">
-            <div class="engine" v-if="$data.engines[engine]">
-                <ps-engine :engine="engine" :entries="$data.engines[engine]"></ps-engine>
-            </div>
+        <div class="engine" v-if="$data.engines[engine]">
+        <ps-engine :engine="engine" :entries="$data.engines[engine]"></ps-engine>
+        </div>
         </div>
     `,
 });

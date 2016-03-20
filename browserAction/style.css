@@ -1,5 +1,5 @@
 * {
-    font-size: 1rem;
+    font-size: 1em;
     font-style: normal;
     font-weight: normal;
     margin: 0;
@@ -11,23 +11,7 @@ ol {
     list-style: none;
 }
 
-html {
-    min-width: 20rem;
-}
-
-.appName {
-    background: #eee;
-    font-size: 0.75rem;
-    padding: 0.125rem;
-}
-
-.fragment-name {
-    background: #ccc;
-    font-weight: bold;
-    padding: 0.25rem;
-}
-
-.fragment-name button {
+button {
     -webkit-appearance: none;
     background: none;
     border-radius: 0;
@@ -36,6 +20,22 @@ html {
     margin: 0;
     padding: 0;
     text-align: inherit;
+}
+
+
+html {
+    min-width: 20rem;
+}
+
+.app-name {
+    background: #eee;
+    padding: .25rem;
+}
+
+.fragment-name {
+    background: #ccc;
+    font-weight: bold;
+    padding: 0.25rem;
 }
 
 .engine {
@@ -62,4 +62,17 @@ html {
 .entry-list .entry {
     float: left;
     padding: .25rem;
+}
+
+.entry-details {
+    position: absolute;
+    background: #fff;
+}
+
+.entry-details.hidden {
+    display: none;
+}
+
+.entry-details .title {
+    font-weight: bold;
 }
