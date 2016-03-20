@@ -3,24 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>Platform Status Indicator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Platform Status Indicator</h1>
+    <h1 class="appName">Platform Status Indicator</h1>
     <div id="indicator">
-        <div class="status" v-for="fragment of fragments">
-            <div class="fragment">
-                <h2>{{ fragment.fragment || '#' }}</h2>
-                <div class="engine" v-for="engine of engines">
-                    <div v-if="fragment.engines[engine]">
-                        <h3>{{ engine }}</h3>
-                        <ul class="entry-list" v-for="statusEntry of entry.engines[engine]">
-                            <li>{{ statusEntry.title }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ps-fragment v-for="fragment in fragments" :fragment="fragment.fragment" :engines="fragment.engines" :url="url"></ps-fragment>
     </div>
     <script src="vue.min.js"></script>
     <script src="index.js"></script>

@@ -46,22 +46,109 @@ class DataStore {
     }
 }
 
+const Entry = Vue.extend({
+    data: () => {
+        return {
+            entry: null,
+        };
+    },
+    
+    props: ['entry'],
+
+    template: `
+        <li class="entry">
+            <img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}">
+            <div hidden>
+                <p>{{ entry.title }}</p>
+                <p>
+                    <span>{{ entry.status.originalStatus }}</span>
+                    <span v-if="entry.status.channel">starting {{ entry.status.channel }}</span>
+                    <span v-if="entry,.statu.behindFlag">(behind a flag)</span>
+                    <span v-if="entry.status.prefixed">(prefixed)</span>
+                </p>
+            </div>
+        </li>
+    `,
+});
+
+const Engine = Vue.extend({
+    data: () => {
+        return {
+            engine: null,
+            entries: [],
+        };
+    },
+
+    props: ['engine', 'entries'],
+
+    components: {
+        'ps-entry': Entry,
+    },
+
+    template: `
+        <h3 class="engine-name"><img class="icon" src="icons/{{ engine }}.png" alt="{{ engine}}"></h3>
+        <ul class="entry-list" v-for="entry in $data.entries">
+            <ps-entry :entry="entry"></ps-entry>
+        </ul>
+    `,
+})
+
+const Fragment = Vue.extend({
+    data: () => {
+        return {
+            url: null,
+            fragment: null,
+            engines: [],
+            knownEngines: ['chromium', 'edge'],
+        };
+    },
+
+    props: ['url', 'fragment', 'engines'],
+
+    components: {
+        'ps-engine': Engine,
+    },
+
+    methods: {
+        open: function() {
+            // `this` is vn 
+            if (this.url && this.fragment) {
+                chrome.tabs.update(null, {
+                    url: this.url + this.fragment
+                });
+            } 
+        },
+    },
+
+    template: `
+        <h2 class="fragment-name"><button v-on:click="open">{{ $data.fragment || '#' }}</button></h2>
+        <div v-for="engine in knownEngines">
+            <div class="engine" v-if="$data.engines[engine]">
+                <ps-engine :engine="engine" :entries="$data.engines[engine]"></ps-engine>
+            </div>
+        </div>
+    `,
+});
+
 
 const Indicator = new Vue({
     el: '#indicator',
     data: {
         url: null,
         fragments: [],
-        engines: ['chromium', 'edge'],
     },
 
     created: function() {
+        // `this` is vn 
         DataStore.getData().then((specEntry) => {
-            console.log(this);
             this.url = specEntry.url;
             this.fragments = specEntry.fragments;
         }).catch((err) => {
             console.error(err);
         });
     },
+
+    components: {
+        'ps-fragment': Fragment
+    }
 });
