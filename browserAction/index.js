@@ -134,7 +134,7 @@ const Entry = Vue.extend({
         <div class="title">{{ entry.title }}</div>
         <div>
         <span>{{ entry.status.originalStatus }}</span>
-        <span v-if="entry.status.channel">starting {{ entry.status.channel }}</span>
+        <span v-if="entry.status.channel">(starting {{ entry.status.channel }})</span>
         <span v-if="entry.status.behindFlag">(behind a flag)</span>
         <span v-if="entry.status.prefixed">(prefixed)</span>
         </div>
