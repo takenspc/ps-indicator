@@ -4,7 +4,7 @@ class DataStore {
     static getData() {
         return this.getURL().then((url) => {
             return this.queryData(url);
-        })
+        });
     }
 
     /**
@@ -58,6 +58,10 @@ const Entry = Vue.extend({
     props: ['entry'],
 
     methods: {
+        /**
+         * @param {Event}
+         * @returns {void}
+         */
         open: function(event) {
             // `this` is vn
             if (event.type === 'mouseenter') {
@@ -70,11 +74,19 @@ const Entry = Vue.extend({
             entry.classList.remove('closed');
         },
 
+        /**
+         * @param {Event}
+         * @returns {void}
+         */
         close: function(event) {
             // `this` is vn
             if (event.type === 'mouseleave') {
                 this.onMouse = false;
             } else {
+                // if focus moves inside entry
+                if (this._contains(event.relatedTarget)) {
+                    return;
+                }
                 this.onFocus = false;
             }
 
@@ -82,7 +94,25 @@ const Entry = Vue.extend({
                 const entry = this.$els.entry;
                 entry.classList.add('closed');
             }
-        }
+        },
+
+        /**
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        _contains(node) {
+            const entry = this.$els.entry;
+            let parent = node;
+            while (parent) {
+                if (parent === entry) {
+                    return true;
+                }
+
+                parent = parent.parentNode;
+            }
+
+            return false;
+        },
     },
 
     template: `
@@ -149,6 +179,9 @@ const Fragment = Vue.extend({
     },
 
     methods: {
+        /**
+         * @returns {void}
+         */
         open: function() {
             // `this` is vn
             if (this.url && this.fragment) {

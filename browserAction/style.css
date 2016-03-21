@@ -30,8 +30,23 @@ html {
 
 .app-name {
     background: #eee;
+    float: left;
     padding: .25rem;
 }
+
+.app-link {
+    background: #eee;
+    padding: .25rem;
+    text-align: right;
+}
+
+.app-link:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+}
+
 
 .fragment-name {
     background: #ccc;
@@ -63,6 +78,7 @@ html {
 
 .entry-list {
     position: relative;
+    padding-left: 2.5rem;
 }
 
 .entry {

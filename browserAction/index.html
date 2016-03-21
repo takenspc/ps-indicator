@@ -7,8 +7,9 @@
 </head>
 
 <body>
-<h1 class="app-name">Platform Status Indicator</h1>
 <div id="indicator">
+<h1 class="app-name">Platform Status Indicator</h1>
+<div class="app-link"><a href="http://plateostatus.herokuapp.com/status/{{ url }}" target="_blank">more details</a></div>
 <ps-fragment v-for="fragment in fragments"
              :url="url"
              :fragment="fragment.fragment"
