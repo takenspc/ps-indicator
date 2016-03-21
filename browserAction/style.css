@@ -100,6 +100,7 @@ html {
 
 .entry-details {
     background: #eee;
+    border-bottom: 1px solid #aaa;
     left: 0;
     padding: .5rem;
     position: absolute;

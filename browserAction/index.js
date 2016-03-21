@@ -93,17 +93,18 @@ const Entry = Vue.extend({
             v-on:focusout="close">
         <button class="entry-button closed">
             <img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"/>
-            <img class="behindFlag" src="icons/behindflag.svg" alt="behind a flag"  v-if="entry.status.behindFlag"/>
-            <img class="prefixed" src="icons/prefixed.svg" alt="prefixed"  v-if="entry.status.prefixed"/>
+            <img class="behindFlag" src="icons/behindflag.svg" alt="behind a flag" v-if="entry.status.behindFlag"/>
+            <img class="prefixed" src="icons/prefixed.svg" alt="prefixed" v-if="entry.status.prefixed"/>
         </button>
         <div class="entry-details closed">
-        <p class="title">{{ entry.title }}</p>
-        <p>
+        <div class="title">{{ entry.title }}</div>
+        <div>
         <span>{{ entry.status.originalStatus }}</span>
         <span v-if="entry.status.channel">starting {{ entry.status.channel }}</span>
-        <span v-if="entry,.statu.behindFlag">(behind a flag)</span>
+        <span v-if="entry.status.behindFlag">(behind a flag)</span>
         <span v-if="entry.status.prefixed">(prefixed)</span>
-        </p>
+        </div>
+        <div class="link"><a href="{{ entry.statusURL }}" target="_blank">more details</a></div>
         </div>
         </li>
     `,
