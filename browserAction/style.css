@@ -4,6 +4,7 @@
     font-weight: normal;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 ul,
@@ -39,7 +40,7 @@ html {
 }
 
 .engine {
-    padding: .25rem 0;
+    margin: .5rem 0;
 }
 
 .engine:after {
@@ -56,20 +57,57 @@ html {
 }
 
 .engine-name .icon {
-    width: 1rem;
+    width: 2rem;
 }
 
-.entry-list .entry {
+
+.entry-list {
+    position: relative;
+}
+
+.entry {
     float: left;
     padding: .25rem;
 }
 
-.entry-details {
-    position: absolute;
-    background: #fff;
+.entry-button {
+    background: #eee;
+    position: relative;
 }
 
-.entry-details.hidden {
+.closed .entry-button {
+    background: transparent;
+}
+
+.entry-button .icon {
+    width: 2rem;
+}
+
+.entry-button .behindFlag {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 1rem;
+}
+
+.entry-button .prefixed {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    width: 1rem;
+}
+
+
+.entry-details {
+    background: #eee;
+    left: 0;
+    padding: .5rem;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.closed .entry-details {
     display: none;
 }
 

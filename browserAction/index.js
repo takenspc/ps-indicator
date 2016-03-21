@@ -50,23 +50,53 @@ const Entry = Vue.extend({
     data: () => {
         return {
             entry: null,
+            onMouse: false,
+            onFocus: false,
         };
     },
     
     props: ['entry'],
 
     methods: {
-        toggle: function() {
-            // `this` is vn 
-            const details = this.$els.details;
-            details.classList.toggle('hidden');
+        open: function(event) {
+            // `this` is vn
+            if (event.type === 'mouseenter') {
+                this.onMouse = true;
+            } else {
+                this.onFocus = true;
+            }
+
+            const entry = this.$els.entry;
+            entry.classList.remove('closed');
+        },
+
+        close: function(event) {
+            // `this` is vn
+            if (event.type === 'mouseleave') {
+                this.onMouse = false;
+            } else {
+                this.onFocus = false;
+            }
+
+            if (!this.onMouse && !this.onFocus) {
+                const entry = this.$els.entry;
+                entry.classList.add('closed');
+            }
         }
     },
 
     template: `
-        <li class="entry">
-        <button class="entry-button" v-on:click="toggle"><img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"></button>
-        <div class="entry-details hidden" v-el:details>
+        <li class="entry closed" v-el:entry
+            v-on:mouseenter="open"
+            v-on:mouseleave="close"
+            v-on:focusin="open"
+            v-on:focusout="close">
+        <button class="entry-button closed">
+            <img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"/>
+            <img class="behindFlag" src="icons/behindflag.svg" alt="behind a flag"  v-if="entry.status.behindFlag"/>
+            <img class="prefixed" src="icons/prefixed.svg" alt="prefixed"  v-if="entry.status.prefixed"/>
+        </button>
+        <div class="entry-details closed">
         <p class="title">{{ entry.title }}</p>
         <p>
         <span>{{ entry.status.originalStatus }}</span>
@@ -119,7 +149,7 @@ const Fragment = Vue.extend({
 
     methods: {
         open: function() {
-            // `this` is vn 
+            // `this` is vn
             if (this.url && this.fragment) {
                 chrome.tabs.update(null, {
                     url: this.url + this.fragment
@@ -147,7 +177,7 @@ const Indicator = new Vue({
     },
 
     created: function() {
-        // `this` is vn 
+        // `this` is vn
         DataStore.getData().then((specEntry) => {
             this.url = specEntry.url;
             this.fragments = specEntry.fragments;
