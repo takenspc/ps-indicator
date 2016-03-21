@@ -26,6 +26,9 @@ class DataStore {
  *
  */
 class TabHandler {
+    /**
+     * @param {DataStore} store
+     */
     constructor(store) {
         this.store = store;
         this.activeTabId = null;
@@ -34,6 +37,11 @@ class TabHandler {
         chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
     }
 
+    /**
+     * @param {any} activeInfo
+     * @param {number} windowId
+     * @returns {void}
+     */
     onActivated(activeInfo, windowId) {
         const tabId = activeInfo.tabId;
         chrome.tabs.get(tabId, (tab) => {
@@ -44,6 +52,11 @@ class TabHandler {
         });
     }
 
+    /**
+     * @param {number} tabId
+     * @param {any} changeId
+     * @returns {void}
+     */
     onUpdated(tabId, changeInfo) {
         if (this.activeTabId !== tabId) {
             return;
@@ -57,29 +70,56 @@ class TabHandler {
         this.updateURL(url);
     }
 
+    /**
+     * @param {string} url
+     * @returns {string}
+     */
     normalizeURL(url) {
         const urlObject = new URL(url);
         urlObject.hash = '';
         return urlObject.href;
     }
 
+    /**
+     * @param {string} url
+     * @returns {void}
+     */
     updateURL(url) {
         const normalizedURL = this.normalizeURL(url);
         this.updateBrowserAction(normalizedURL);
     }
 
+    /**
+     * @param {string} url
+     * @returns {void}
+     */
     updateBrowserAction(url) {
         const data = this.query(url);
+
+        if (data && data.fragments.length) {
+            chrome.browserAction.enable();
+        } else {
+            chrome.browserAction.disable();
+        }
+
         chrome.browserAction.setBadgeText({
             text: (data ? '' + data.fragments.length : ''),
             tabId: this.activeTabId,
         });
     }
 
+    /**
+     * @param {string} url
+     * @returns {any}
+     */
     query(url) {
         return this.store.query(url);
     }
 
+    /**
+     * @param {any} message
+     * @returns {void}
+     */
     onMessage(message) {
         // console.log(message);
         const type = message.type;
