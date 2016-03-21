@@ -16,6 +16,10 @@ class DataStore {
         }
     }
 
+    /**
+     * @param {string} url
+     * @returns {any}
+     */
     query(url) {
         return this.url2entry.get(url);
     }

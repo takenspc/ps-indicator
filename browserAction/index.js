@@ -1,6 +1,9 @@
 'use strict';
 
 class DataStore {
+    /**
+     * @returns {Promise<any>}
+     */
     static getData() {
         return this.getURL().then((url) => {
             return this.queryData(url);
@@ -27,6 +30,7 @@ class DataStore {
     /**
      * @private
      * @param {string} url
+     * @returns {Promise<any>}
      */
     static queryData(url) {
         return new Promise(function(resolve, reject) {
@@ -222,5 +226,14 @@ const Indicator = new Vue({
 
     components: {
         'ps-fragment': Fragment
-    }
+    },
+
+    template: `
+        <h1 class="app-name">Platform Status Indicator</h1>
+        <div class="app-link"><a href="http://plateostatus.herokuapp.com/status/{{ url }}" target="_blank">more details</a></div>
+        <ps-fragment v-for="fragment in fragments"
+                     :url="url"
+                     :fragment="fragment.fragment"
+                     :engines="fragment.engines"></ps-fragment>
+    `,
 });

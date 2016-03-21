@@ -5,16 +5,8 @@
 <title>Platform Status Indicator</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div id="indicator">
-<h1 class="app-name">Platform Status Indicator</h1>
-<div class="app-link"><a href="http://plateostatus.herokuapp.com/status/{{ url }}" target="_blank">more details</a></div>
-<ps-fragment v-for="fragment in fragments"
-             :url="url"
-             :fragment="fragment.fragment"
-             :engines="fragment.engines"></ps-fragment>
-</div>
+<div id="indicator"></div>
 <script src="vue.min.js"></script>
 <script src="index.js"></script>
 </body>
