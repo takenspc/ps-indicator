@@ -140,9 +140,9 @@ const Entry = Vue.extend({
             v-on:focusin="open"
             v-on:focusout="close">
         <button class="entry-button closed">
-            <img class="icon" src="icons/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"/>
-            <img class="behindFlag" src="icons/behindflag.svg" alt="behind a flag" v-if="entry.status.behindFlag"/>
-            <img class="prefixed" src="icons/prefixed.svg" alt="prefixed" v-if="entry.status.prefixed"/>
+            <img class="icon" src="images/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"/>
+            <img class="behindFlag" src="images/behindflag.svg" alt="behind a flag" v-if="entry.status.behindFlag"/>
+            <img class="prefixed" src="images/prefixed.svg" alt="prefixed" v-if="entry.status.prefixed"/>
         </button>
         <div class="entry-details closed">
         <div class="title">{{ entry.title }}</div>
@@ -173,7 +173,7 @@ const Engine = Vue.extend({
     },
 
     template: `
-        <h3 class="engine-name"><img class="icon" src="icons/{{ engine }}.png" alt="{{ engine}}"></h3>
+        <h3 class="engine-name"><img class="icon" src="images/{{ engine }}.png" alt="{{ engine}}"></h3>
         <ul class="entry-list" v-for="entry in $data.entries">
         <ps-entry :entry="entry"></ps-entry>
         </ul>
