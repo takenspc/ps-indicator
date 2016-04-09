@@ -100,15 +100,14 @@ class TabHandler {
     updateBrowserAction(url) {
         const data = this.query(url);
 
-        const fragmentsLength = Object.keys(data.fragments).length;
-        if (data && fragmentsLength) {
+        if (data && Object.keys(data.fragments).length > 0) {
             chrome.browserAction.enable();
         } else {
             chrome.browserAction.disable();
         }
 
         chrome.browserAction.setBadgeText({
-            text: (data ? '' + fragmentsLength : ''),
+            text: (data ? '' +  Object.keys(data.fragments).length : ''),
             tabId: this.activeTabId,
         });
     }
