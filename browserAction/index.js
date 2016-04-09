@@ -244,7 +244,7 @@ const Indicator = new Vue({
 
     template: `
         <h1 class="app-name">Platform Status Indicator</h1>
-        <div class="app-link"><a href="http://plateostatus.herokuapp.com/status/url/{{ url }}" target="_blank">View in Plateostatus</a></div>
+        <div class="app-link"><a href="https://plateostatus.herokuapp.com/status/url/{{ url }}" target="_blank">View in Plateostatus</a></div>
         <ps-fragment v-for="fragment in fragments"
                      :url="url"
                      :fragment="fragment.fragment"
