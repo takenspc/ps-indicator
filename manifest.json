@@ -3,7 +3,7 @@
 
   "name": "Platform Status Indicator",
   "description": "This extension adds an indicator that shows whether the page has listed in the platform statuses.",
-  "version": "0.0",
+  "version": "0.1",
 
   "browser_action": {
     "default_icon": "browserAction/index.png",
