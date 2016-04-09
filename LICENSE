@@ -1,3 +1,20 @@
+# License
+
+## data/data.json 
+
+data/data.json contains data are from
+
+- https://www.chromestatus.com/features (CC BY 2.5)
+- https://developer.microsoft.com/en-us/microsoft-edge/platform/status/ (CC BY 2.5)
+- https://webkit.org/status/ (LGPL)
+- https://github.com/mozilla/platform-status (Apache License 2.0)
+
+## icons/*.svg
+
+Material icons are from http://design.google.com/icons/ (CC BY 4.0).
+
+## Remaining parts
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Takeshi Kurosawa
