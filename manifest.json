@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-
+  "short_name": "ps-indicator",
   "name": "Platform Status Indicator",
   "description": "This extension adds an indicator that shows whether the page has listed in the platform statuses.",
   "version": "0.1",
@@ -17,11 +17,13 @@
     "default_icon": "icons/icon64x64.png",
     "default_popup": "browserAction/index.html"
   },
+
   "background": {
       "scripts": [
         "background/background.js"
       ]
   },
+
   "permissions": [
     "alarms",
     "idle",
