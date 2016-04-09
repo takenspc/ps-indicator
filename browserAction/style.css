@@ -57,7 +57,7 @@ button {
 
 .fragment-name button {
     text-decoration: underline;
-    color: #00f;
+    color: -webkit-link;
 }
 
 .engine {
@@ -122,7 +122,7 @@ button {
 
 .entry-details {
     background: #eeeeee;
-    border-bottom: 1px solid #aaa;
+    border-bottom: thin solid #aaa;
     left: 0;
     padding: .5rem;
     position: absolute;
@@ -140,4 +140,8 @@ button {
 
 .entry-details .detail {
     margin-bottom: .5rem;
+}
+
+.entry-details .link {
+    font-size: .83em;
 }
