@@ -5,8 +5,38 @@
  */
 class DataStore {
     constructor(data) {
+        this.ONE_DAY = 24 * 3600 * 1000;
+        this.KEY = 'PLATEOSTATUS';
+        this.URL = 'https://plateostatus.herokuapp.com/data/data.json';
+        this.FALLBACK_URL = chrome.runtime.getURL('data/data.json');
+
+        this.datetime = 0;
         this.url2entry = new Map();
 
+        chrome.alarms.create({ delayInMinutes: 1, periodInMinutes: 60 });
+        chrome.alarms.onAlarm.addListener(this.downloadIfNeeded.bind(this));
+    }
+
+
+    /**
+     * @returns {Promise<any>}
+     */
+    init() {
+        return this.getData().then((data) => {
+            return this.updateData(data);
+        });
+    }
+
+
+    /**
+     * @private
+     * @param {any} data
+     * @returns {void}
+     */
+    updateData(data) {
+        this.datetime = data.datetime;
+
+        this.url2entry = new Map();
         for (const url of Object.keys(data.urls)) {
             if (url === '') {
                 continue;
@@ -15,6 +45,93 @@ class DataStore {
             this.url2entry.set(url, data.urls[url]);
         }
     }
+
+
+    /**
+     * @private
+     * @returns {Promise<any>}
+     */
+    getData() {
+        return this.getStorageData().then((data) => {
+            return data;
+        }).catch((err) => {
+            console.error(err);
+            return this.getJSONData(this.FALLBACK_URL);
+        });
+    }
+
+    /**
+     * @private
+     * @returns {Promise<any>}
+     */
+    getStorageData() {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get(null, (data) => {
+                if (data.datetime && data.urls) {
+                    resolve(data);
+                    return;
+                }
+
+                reject(new Error('Recieve unexpected data from chrome.storage.local'));
+            });
+        });
+    }
+
+    /**
+     * @private
+     * @returns {Promise<any>}
+     */
+    setStorageData(data) {
+        return new Promise((resolve, rejct) => {
+            chrome.storage.local.set(data, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve();
+            });
+        });
+    }
+
+    /**
+     * @private
+     * @returns {Promise<any>}
+     */
+    getJSONData(url) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+
+            xhr.onload = (data) => {
+                resolve(xhr.response);
+            };
+
+            xhr.onerror = (err) => {
+                reject(err);
+            };
+            
+            xhr.open('GET', url);
+            xhr.send();
+        });
+    }
+
+
+    /**
+     * @private
+     * @returns {void}
+     */
+    downloadIfNeeded() {
+        if (Date.now() - this.datetime > this.ONE_DAY) {
+            this.getJSONData(this.URL).then((data) => {
+                this.updateData(data);
+                this.setStorageData(data);
+            }).catch((err) => {
+                throw err;
+            });
+        }
+    }
+
 
     /**
      * @param {string} url
@@ -142,34 +259,14 @@ class TabHandler {
             });
         }
     }
-
 }
 
+
 (function() {
-    function readJSON(url) {
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.responseType = 'json';
-
-            xhr.onload = (data) => {
-                resolve(xhr.response);
-            };
-
-            xhr.onerror = (err) => {
-                reject(err);
-            };
-            
-            xhr.open('GET', url);
-            xhr.send();
-        });
-    }
-
-    const jsonURL = chrome.runtime.getURL('data/data.json');
-    readJSON(jsonURL).then((data) => {
-        const dataStore = new DataStore(data);
+    const dataStore = new DataStore();
+    dataStore.init().then(() => {
         new TabHandler(dataStore);
     }).catch((err) => {
-        console.log(err);
-        console.log(err.stack);
+        throw err;
     });
 })();
