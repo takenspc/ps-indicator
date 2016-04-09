@@ -50,6 +50,16 @@ class DataStore {
     }
 }
 
+const PLATFORMSTATUS = {
+    ENGINES: ['chromium', 'edge', 'webkit', 'gecko'],
+    URLS: new Map([
+        ['chromium', 'https://www.chromestatus.com/features/'],
+        ['edge', 'https://developer.microsoft.com/en-us/microsoft-edge/platform/status/'],
+        ['webkit', 'https://webkit.org/status/#'],
+        ['gecko', 'https://platform-status.mozilla.org/#'],
+    ])
+}
+
 const Entry = Vue.extend({
     data: () => {
         return {
@@ -117,6 +127,10 @@ const Entry = Vue.extend({
 
             return false;
         },
+        
+        _geturl(engine, id) {
+            return PLATFORMSTATUS.URLS.get(engine) + encodeURIComponent(id);;
+        }
     },
 
     template: `
@@ -132,13 +146,13 @@ const Entry = Vue.extend({
         </button>
         <div class="entry-details closed">
         <div class="title">{{ entry.title }}</div>
-        <div>
+        <p class="detail">
         <span>{{ entry.status.originalStatus }}</span>
         <span v-if="entry.status.channel">(starting {{ entry.status.channel }})</span>
         <span v-if="entry.status.behindFlag">(behind a flag)</span>
         <span v-if="entry.status.prefixed">(prefixed)</span>
-        </div>
-        <div class="link"><a href="{{ entry.statusURL }}" target="_blank">more details</a></div>
+        </p>
+        <p class="link"><a href="{{ this._geturl(entry.engine, entry.id) }}" target="_blank">View the platform status entry</a></p>
         </div>
         </li>
     `,
@@ -172,7 +186,7 @@ const Fragment = Vue.extend({
             url: null,
             fragment: null,
             engines: [],
-            knownEngines: ['chromium', 'edge'],
+            knownEngines: PLATFORMSTATUS.ENGINES,
         };
     },
 
@@ -230,7 +244,7 @@ const Indicator = new Vue({
 
     template: `
         <h1 class="app-name">Platform Status Indicator</h1>
-        <div class="app-link"><a href="http://plateostatus.herokuapp.com/status/{{ url }}" target="_blank">more details</a></div>
+        <div class="app-link"><a href="http://plateostatus.herokuapp.com/status/url/{{ url }}" target="_blank">View in Plateostatus</a></div>
         <ps-fragment v-for="fragment in fragments"
                      :url="url"
                      :fragment="fragment.fragment"

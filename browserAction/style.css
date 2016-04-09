@@ -1,3 +1,8 @@
+html {
+    min-width: 20rem;
+}
+
+
 * {
     font-size: 1em;
     font-style: normal;
@@ -24,18 +29,14 @@ button {
 }
 
 
-html {
-    min-width: 20rem;
-}
-
 .app-name {
-    background: #eee;
+    background: #fafafa;
     float: left;
     padding: .25rem;
 }
 
 .app-link {
-    background: #eee;
+    background: #fafafa;
     padding: .25rem;
     text-align: right;
 }
@@ -49,9 +50,14 @@ html {
 
 
 .fragment-name {
-    background: #ccc;
+    background: #eeeeee;
     font-weight: bold;
     padding: 0.25rem;
+}
+
+.fragment-name button {
+    text-decoration: underline;
+    color: #00f;
 }
 
 .engine {
@@ -87,7 +93,7 @@ html {
 }
 
 .entry-button {
-    background: #eee;
+    background: #eeeeee;
     position: relative;
 }
 
@@ -115,7 +121,7 @@ html {
 
 
 .entry-details {
-    background: #eee;
+    background: #eeeeee;
     border-bottom: 1px solid #aaa;
     left: 0;
     padding: .5rem;
@@ -130,4 +136,8 @@ html {
 
 .entry-details .title {
     font-weight: bold;
+}
+
+.entry-details .detail {
+    margin-bottom: .5rem;
 }

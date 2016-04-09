@@ -7,12 +7,12 @@ class DataStore {
     constructor(data) {
         this.url2entry = new Map();
 
-        for (const specEntry of data) {
-            if (specEntry.url === '') {
+        for (const url of Object.keys(data.urls)) {
+            if (url === '') {
                 continue;
             }
 
-            this.url2entry.set(specEntry.url, specEntry);
+            this.url2entry.set(url, data.urls[url]);
         }
     }
 
@@ -100,14 +100,15 @@ class TabHandler {
     updateBrowserAction(url) {
         const data = this.query(url);
 
-        if (data && data.fragments.length) {
+        const fragmentsLength = Object.keys(data.fragments).length;
+        if (data && fragmentsLength) {
             chrome.browserAction.enable();
         } else {
             chrome.browserAction.disable();
         }
 
         chrome.browserAction.setBadgeText({
-            text: (data ? '' + data.fragments.length : ''),
+            text: (data ? '' + fragmentsLength : ''),
             tabId: this.activeTabId,
         });
     }
@@ -132,7 +133,6 @@ class TabHandler {
             const normalizedURL = this.normalizeURL(url);
 
             // console.log('recieving query', url);
-
             const data = this.query(normalizedURL);
 
             // console.log('sending response', url);
@@ -171,5 +171,6 @@ class TabHandler {
         new TabHandler(dataStore);
     }).catch((err) => {
         console.log(err);
+        console.log(err.stack);
     });
 })();
