@@ -1,5 +1,7 @@
 'use strict';
 
+const BLANK_URL = '';
+
 /*
  *
  */
@@ -38,7 +40,7 @@ class DataStore {
 
         this.url2entry = new Map();
         for (const url of Object.keys(data.urls)) {
-            if (url === '') {
+            if (url === BLANK_URL) {
                 continue;
             }
 
@@ -153,6 +155,7 @@ class TabHandler {
     constructor(store) {
         this.store = store;
         this.activeTabId = null;
+        chrome.tabs.getCurrent(this.updateTabInfo.bind(this));
         chrome.tabs.onActivated.addListener(this.onActivated.bind(this));
         chrome.tabs.onUpdated.addListener(this.onUpdated.bind(this));
         chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
@@ -164,13 +167,22 @@ class TabHandler {
      * @returns {void}
      */
     onActivated(activeInfo, windowId) {
-        const tabId = activeInfo.tabId;
-        chrome.tabs.get(tabId, (tab) => {
-            this.activeTabId = tabId;
+        chrome.tabs.get(activeInfo.tabId, this.updateTabInfo.bind(this));
+    }
 
-            const url = tab.url;
-            this.updateURL(url);
-        });
+    /**
+     * @param {any} tab
+     * @returns {void}
+     */
+    updateTabInfo(tab) {
+        if (!tab) {
+            this.updateBrowserAction(BLANK_URL);
+            return;
+        }
+
+        this.activeTabId = tab.id;
+        const url = tab.url;
+        this.updateURL(url);
     }
 
     /**
