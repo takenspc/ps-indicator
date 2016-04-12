@@ -179,9 +179,8 @@ class TabHandler {
             return;
         }
 
-        this.activeTabId = tab.id;
         const url = tab.url;
-        this.updateURL(url);
+        this.updatePageAction(tab.id, url);
     }
 
     /**
@@ -190,16 +189,12 @@ class TabHandler {
      * @returns {void}
      */
     onUpdated(tabId, changeInfo) {
-        if (this.activeTabId !== tabId) {
-            return;
-        }
-
         if (!changeInfo.url) {
             return;
         }
 
         const url = changeInfo.url;
-        this.updateURL(url);
+        this.updatePageAction(tabId, url);
     }
 
     /**
@@ -216,18 +211,9 @@ class TabHandler {
      * @param {string} url
      * @returns {void}
      */
-    updateURL(url) {
+    updatePageAction(tabId, url) {
         const normalizedURL = this.normalizeURL(url);
-        this.updatePageAction(normalizedURL);
-    }
-
-    /**
-     * @param {string} url
-     * @returns {void}
-     */
-    updatePageAction(url) {
         const data = this.query(url);
-        const tabId = this.activeTabId;
 
         if (data && Object.keys(data.fragments).length > 0) {
             chrome.pageAction.show(tabId);
