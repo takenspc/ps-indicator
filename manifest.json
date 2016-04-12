@@ -13,9 +13,9 @@
       "128": "icons/icon128x128.png"
   },
 
-  "browser_action": {
+  "page_action": {
     "default_icon": "icons/icon64x64.png",
-    "default_popup": "browserAction/index.html"
+    "default_popup": "pageAction/index.html"
   },
 
   "background": {

@@ -176,7 +176,6 @@ class TabHandler {
      */
     updateTabInfo(tab) {
         if (!tab) {
-            this.updateBrowserAction(BLANK_URL);
             return;
         }
 
@@ -219,26 +218,22 @@ class TabHandler {
      */
     updateURL(url) {
         const normalizedURL = this.normalizeURL(url);
-        this.updateBrowserAction(normalizedURL);
+        this.updatePageAction(normalizedURL);
     }
 
     /**
      * @param {string} url
      * @returns {void}
      */
-    updateBrowserAction(url) {
+    updatePageAction(url) {
         const data = this.query(url);
+        const tabId = this.activeTabId;
 
         if (data && Object.keys(data.fragments).length > 0) {
-            chrome.browserAction.enable();
+            chrome.pageAction.show(tabId);
         } else {
-            chrome.browserAction.disable();
+            chrome.pageAction.hide(tabId);
         }
-
-        chrome.browserAction.setBadgeText({
-            text: (data ? '' +  Object.keys(data.fragments).length : ''),
-            tabId: this.activeTabId,
-        });
     }
 
     /**
