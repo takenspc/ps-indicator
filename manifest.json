@@ -29,5 +29,12 @@
     "idle",
     "storage",
     "tabs"
-  ]
+  ],
+  
+  "applications": {
+    "gecko": {
+      "id": "platform-status-indicator@plateostatus.herokuapp.com",
+      "strict_min_version": "45.0.0"
+    }
+  }
 }
