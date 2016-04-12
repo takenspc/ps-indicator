@@ -39,7 +39,8 @@ class DataStore {
         this.datetime = data.datetime;
 
         this.url2entry = new Map();
-        for (const url of Object.keys(data.urls)) {
+        // XXX avoid `const` here
+        for (var url of Object.keys(data.urls)) {
             if (url === BLANK_URL) {
                 continue;
             }
