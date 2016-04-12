@@ -5,11 +5,13 @@ html {
 
 * {
     font-size: 1em;
-    font-style: normal;
-    font-weight: normal;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-size: 75%;
 }
 
 ul,
