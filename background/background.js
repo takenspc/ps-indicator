@@ -214,7 +214,7 @@ class TabHandler {
      */
     updatePageAction(tabId, url) {
         const normalizedURL = this.normalizeURL(url);
-        const data = this.query(url);
+        const data = this.query(normalizedURL);
 
         if (data && Object.keys(data.fragments).length > 0) {
             chrome.pageAction.show(tabId);
