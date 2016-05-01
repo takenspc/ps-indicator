@@ -57,7 +57,8 @@ const PLATFORMSTATUS = {
         ['edge', 'https://developer.microsoft.com/en-us/microsoft-edge/platform/status/'],
         ['webkit', 'https://webkit.org/status/#'],
         ['gecko', 'https://platform-status.mozilla.org/#'],
-    ])
+    ]),
+    STATUSES: new Set(['supported', 'in-development', 'under-consideration', 'not-planned', 'deprecated', 'removed']),
 }
 
 const Entry = Vue.extend({
@@ -130,6 +131,23 @@ const Entry = Vue.extend({
         
         _geturl(engine, id) {
             return PLATFORMSTATUS.URLS.get(engine) + encodeURIComponent(id);;
+
+        /**
+         * @param entry {any}
+         * @returns {string}
+         */
+        _getStatusIcon(entry) {
+            if (!entry || !entry.status || !entry.status.status) {
+                return 'na.svg';
+            }
+
+            const status = entry.status.status;
+
+            if (!PLATFORMSTATUS.STATUSES.has(status)) {
+                return 'na.svg';
+            }
+
+            return status + '.svg';
         }
     },
 
@@ -140,7 +158,7 @@ const Entry = Vue.extend({
             v-on:focusin="open"
             v-on:focusout="close">
         <button class="entry-button closed">
-            <img class="icon" src="images/{{ entry.status.status }}.svg" alt="{{ entry.status.originalStatus }}"/>
+            <img class="icon" src="images/{{ this._getStatusIcon(entry) }}" alt="{{ entry.status.originalStatus }}"/>
             <img class="behindFlag" src="images/behindflag.svg" alt="behind a flag" v-if="entry.status.behindFlag"/>
             <img class="prefixed" src="images/prefixed.svg" alt="prefixed" v-if="entry.status.prefixed"/>
         </button>
@@ -168,12 +186,26 @@ const Engine = Vue.extend({
 
     props: ['engine', 'entries'],
 
+    methods: {
+        /**
+         * @param engine {string}
+         * @returns {string}
+         */
+        _getEngineIcon(engine) {
+            if (!engine || PLATFORMSTATUS.ENGINES.indexOf(engine) === -1) {
+                return 'na.svg';
+            }
+            
+            return engine + '.png';
+        },
+    },
+
     components: {
         'ps-entry': Entry,
     },
 
     template: `
-        <h3 class="engine-name"><img class="icon" src="images/{{ engine }}.png" alt="{{ engine}}"></h3>
+        <h3 class="engine-name"><img class="icon" src="images/{{ this._getEngineIcon(engine) }}" alt="{{ engine}}"></h3>
         <ul class="entry-list" v-for="entry in $data.entries">
         <ps-entry :entry="entry"></ps-entry>
         </ul>
