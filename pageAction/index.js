@@ -128,9 +128,15 @@ const Entry = Vue.extend({
 
             return false;
         },
-        
-        _geturl(engine, id) {
-            return PLATFORMSTATUS.URLS.get(engine) + encodeURIComponent(id);;
+
+        /**
+         * @param engine {any}
+         * @param id {string}
+         * @returns {string}
+         */
+        _getPlatformStatusUrl(engine, id) {
+            return PLATFORMSTATUS.URLS.get(engine) + encodeURIComponent(id);
+        },
 
         /**
          * @param entry {any}
@@ -170,7 +176,7 @@ const Entry = Vue.extend({
         <span v-if="entry.status.behindFlag">(behind a flag)</span>
         <span v-if="entry.status.prefixed">(prefixed)</span>
         </p>
-        <p class="link"><a href="{{ this._geturl(entry.engine, entry.id) }}" target="_blank">View the platform status entry</a></p>
+        <p class="link"><a href="{{ this._getPlatformStatusUrl(entry.engine, entry.id) }}" target="_blank">View the platform status entry</a></p>
         </div>
         </li>
     `,
