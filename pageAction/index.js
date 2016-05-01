@@ -74,7 +74,7 @@ const Entry = Vue.extend({
 
     methods: {
         /**
-         * @param {Event}
+         * @param event {Event}
          * @returns {void}
          */
         open: function(event) {
@@ -90,7 +90,7 @@ const Entry = Vue.extend({
         },
 
         /**
-         * @param {Event}
+         * @param event {Event}
          * @returns {void}
          */
         close: function(event) {
@@ -112,7 +112,7 @@ const Entry = Vue.extend({
         },
 
         /**
-         * @param {Node} node
+         * @param node {Node}
          * @returns {boolean}
          */
         _contains(node) {
