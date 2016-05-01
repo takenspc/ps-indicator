@@ -3,7 +3,7 @@
   "short_name": "ps-indicator",
   "name": "Platform Status Indicator",
   "description": "This extension adds an indicator that shows whether the page has listed in the platform statuses.",
-  "version": "0.1",
+  "version": "0.2",
 
   "icons": {
       "16": "icons/icon16x16.png",
